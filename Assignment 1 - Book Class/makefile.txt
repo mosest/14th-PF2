@@ -1,0 +1,11 @@
+BookDriver: BookDriver.o Book.o
+	g++ BookDriver.o Book.o -o BookDriver
+
+BookDriver.o : BookDriver.cpp Book.h
+	g++ -Wall -c BookDriver.cpp
+
+Book.o : Book.cpp Book.h
+	g++ -Wall -c Book.cpp
+
+clean :
+	rm *.o BookDriver
