@@ -11,7 +11,7 @@ using namespace std;
 int main() {
 	cout << "=== Lab 3 starts === \n";
 
-    Song song1(); // your favorite song.
+    Song song1; // your favorite song.
 
     // TODO: Set values for all attributes you defined.
     song1.setName("GINASFS");
@@ -20,7 +20,7 @@ int main() {
     song1.setLength(180);
     song1.setNumOfDownloads(1200001);
 
-    Song song2(); // another your favorite song. 
+    Song song2; // another your favorite song. 
 
     // TODO: Set values for all attributes you defined.
     song2.setName("Death of a Bachelor");
