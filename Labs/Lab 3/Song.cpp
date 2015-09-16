@@ -18,49 +18,49 @@ Song::~Song() {
 }
 
 //getters
- string getName() {
+string Song::getName() {
 	 return name;
 }
 
-string getArtist() {
+string Song::getArtist() {
 	return artist;
 }
 
-string getLyrics() {
+string Song::getLyrics() {
 	return lyrics;
 }
 
-int getLength() {
+int Song::getLength() {
 	return lengthInSeconds;
 }
 
-int getNumOfDownloads() {
+int Song::getNumOfDownloads() {
 	return numOfDownloads;
 }
  
 //setters
-void setName(const string& str) {
+void Song::setName(const string& str) {
 	name = str;
 }
 
-void setArtist(const string& str) {
+void Song::setArtist(const string& str) {
 	artist = str;
 }
 
-void setLyrics(const string& str) {
+void Song::setLyrics(const string& str) {
 	lyrics = str;
 }
 
-void setLength(const int& num) {
+void Song::setLength(const int& num) {
 	lengthInSeconds = num;
 }
 
-void setNumOfDownloads(const int& num) {
+void Song::setNumOfDownloads(const int& num) {
 	numOfDownloads = num;
 }
  
 //other
-void print() {
+void Song::print() {
 	cout << "Name: " << name << endl
 		 << "Artist: " << artist << endl
 		 << "Lyrics: " << lyrics << endl
