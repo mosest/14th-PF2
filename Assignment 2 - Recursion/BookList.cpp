@@ -10,6 +10,7 @@ using namespace std;
 
 //constructors and destructor
 BookList::BookList() {
+	head = NULL;
 	current = head;
 	size = 0;
 }

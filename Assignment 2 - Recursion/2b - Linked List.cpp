@@ -18,10 +18,11 @@ int main() {
 	string title;
 	string author;
 	string publisher;
-	string y;
-	string p;
+	string intStr; //reusable string to use with atoi. eg "34"
+	string floatStr; //reusable string to use with atoif. eg "3.14"
 	int year;
 	float price;
+	int numBooks = 0;
 	
 	ifstream fin;
 	BookList shelf;
@@ -30,25 +31,27 @@ int main() {
 	//Open, Read, Close File
 	//------------------------------
 	fin.open("books.txt");
-	getline(fin,y); //ignore the number of books in the file
+	getline(fin,intStr); //get the number of books in the file
+	numBooks = atoi(intStr.c_str());
+	BookNode bookArray[numBooks];
 	
-	while (!fin.eof()) {
+	for (int i = 0; i < numBooks && !fin.eof(); i++) {
 		getline(fin,title);
 		getline(fin,author);
 		getline(fin,publisher);
-		getline(fin,y);
-		getline(fin,p);
+		getline(fin,intStr); //take in year as a string
+		getline(fin,floatStr); //take in price as a string
 		fin.ignore(); //ignore the blank line after each set of book info
 		
-		//atoi and atof only take in c-strings, so convert y and p to c-strings
-		year = atoi(y.c_str());
-		price = atof(p.c_str());
+		//atoi and atof only take in c-strings, so convert strings to c-strings
+		year = atoi(intStr.c_str());
+		price = atof(floatStr.c_str());
 		
 		//attach data to book, then shelve
 		BookNode currentBook(title, author, publisher, year, price);
-		//currentBook.print();
-		//cout << endl;
-		shelf.insertTail(currentBook);
+		bookArray[i] = currentBook;
+		cout << "address of bookArray[" << i << "]: " << &bookArray[i] << endl;
+		shelf.insertSorted(bookArray[i]);
 	}
 	shelf.print();
 	fin.close();
