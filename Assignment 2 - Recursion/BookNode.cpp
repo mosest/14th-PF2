@@ -92,5 +92,4 @@ void BookNode::print() {
 	cout << title << " (" << year << ") by " << author << endl;
 	cout << "Published by " << publisher << ". $";
 	cout << setprecision(2) << fixed << price << endl;
-	//cout << "Next points to " << (*Next).getTitle() << endl;
 }

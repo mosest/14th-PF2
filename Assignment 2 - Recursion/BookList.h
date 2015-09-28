@@ -16,7 +16,6 @@ class BookList {
 		~BookList();
 		
 		//getters
-		BookNode* getNodeAt(int);
 		int getSize();
 		
 		//setters

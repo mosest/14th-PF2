@@ -25,72 +25,86 @@ BookList::~BookList() {
 	//do killing stuff i guess
 }
 
-//getters!
-BookNode* BookList::getNodeAt(int index) {
-	current = head;
-	for (int i = 0; i < size && i < index; i++) {
-		current = (*current).getNext();
-	}
-	return current;
-}
-
-int BookList::getSize() {
-	return size;
-}
-
 //setters (kind of). more like inserters
 void BookList::insertHead(BookNode& node) {
-	//cout << "insertHead(" << &node << ")" << endl;
-	
 	if (size > 0) node.setNext(head);
 	head = &node;
 	size++;
 }
 
 void BookList::insertTail(BookNode& node) {
-	if (size > 0) (*getNodeAt(size - 1)).setNext(&node);
-	else head = &node;
+	if (size == 0) head = &node;
+	else {
+		current = head;
+		for (int i = 0; i < size - 1; i++) {
+			current = (*current).getNext();
+		}
+		(*current).setNext(&node);
+	}
+	
 	size++;
 }
 
 void BookList::insertSorted(BookNode& node) {
-	//cout << "insertSorted(" << &node << ")" << endl;
-	if (size == 0) insertHead(node); //no books to sort through
-	else if (size == 1) { //only one book to sort through
+	//list is currently empty
+	if (size == 0) insertHead(node);
+	
+	//list has one book in it!
+	else if (size == 1) {
 		if ((*head).getPrice() > node.getPrice()) insertHead(node);
 		else insertTail(node);
-	} else { //there's at least two books in this list!	
-		current = head; 
+		
+	 //there's at least two books in this list <3
+	} else {		
+		/* current is SECOND book in the list. 
+		 * prev is the first book :D 
+		 * 
+		 * basically, if the new node's price is
+		 * the lowest we've encountered so far, 
+		 * just insert it as the head. otherwise, 
+		 * find where new node belongs and wedge it
+		 * inbetween prev and current!
+		 */
+		current = (*head).getNext();
+		BookNode* prev = head;
 		
 		if ((*head).getPrice() > node.getPrice()) insertHead(node);
 		else {		
 			//search through list until you find current.price > node.price
-			for (int i = 0; i < size && (*getNodeAt(i)).getPrice() <= node.getPrice(); i++) {
-				current = getNodeAt(i);
+			for (int i = 0; i < size - 1 && (*current).getPrice() <= node.getPrice(); i++) {
+				prev = current;
+				current = (*current).getNext();
 			}
-			//loop stops when current.price is the LAST ONE with price <= node.price
 			
-			//wedge node between current and current.next :3
-			cout << "Setting " << (*current).getPrice() << " > ";
-			cout << node.getPrice() << " > ";
-			cout << (*(*current).getNext()).getPrice() << endl << endl;
-			
-			node.setNext((*current).getNext());
-			(*current).setNext(&node);
+			//wedge node between prev and current :3
+			node.setNext(current);
+			(*prev).setNext(&node);
 			
 			size++;
 		}
 	}
-	cout << "added book!" << endl;
 }
 
 //other functions!
-void BookList::deleteBook(string title) {
+void BookList::deleteBook(string name) {
+	current = (*head).getNext();
+	BookNode* prev = head;	
 	
+	for (int i = 0; i < size - 1 && (*current).getTitle().compare(name) != 0; i++) {
+		prev = current;
+		current = (*current).getNext();
+	}
+	
+	//get rid of current by connecting prev and current.next
+	(*prev).setNext((*current).getNext());
+	
+	//we killed a book! decrement size
+	size--;
 }
 
 void BookList::destroy() {
-	
+	head = NULL;
+	size = 0;
 }
 
 void BookList::print() {
