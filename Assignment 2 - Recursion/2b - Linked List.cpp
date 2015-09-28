@@ -53,6 +53,7 @@ int main() {
 		cout << "address of bookArray[" << i << "]: " << &bookArray[i] << endl;
 		shelf.insertSorted(bookArray[i]);
 	}
+	cout << "done adding stuff!" << endl;
 	shelf.print();
 	fin.close();
 	
