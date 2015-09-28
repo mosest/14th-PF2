@@ -17,6 +17,7 @@ class BookList {
 		
 		//getters
 		BookNode* getNodeAt(int);
+		int getSize();
 		
 		//setters
 		void insertHead(BookNode&);

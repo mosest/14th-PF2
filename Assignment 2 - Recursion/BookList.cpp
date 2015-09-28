@@ -34,9 +34,13 @@ BookNode* BookList::getNodeAt(int index) {
 	return current;
 }
 
+int BookList::getSize() {
+	return size;
+}
+
 //setters (kind of). more like inserters
 void BookList::insertHead(BookNode& node) {
-	cout << "insertHead(" << &node << ")" << endl;
+	//cout << "insertHead(" << &node << ")" << endl;
 	
 	if (size > 0) node.setNext(head);
 	head = &node;
@@ -50,31 +54,34 @@ void BookList::insertTail(BookNode& node) {
 }
 
 void BookList::insertSorted(BookNode& node) {
-	cout << "insertSorted(" << &node << ")" << endl;
-	current = head;
-	
-	if (size == 0) head = &node; //no books to sort through
+	//cout << "insertSorted(" << &node << ")" << endl;
+	if (size == 0) insertHead(node); //no books to sort through
 	else if (size == 1) { //only one book to sort through
-		if ((*head).getPrice() > node.getPrice()) {
-			node.setNext(head);
-			head = &node;
-		} else (*head).setNext(&node);
-	} else { //there's at least two books in this list!
+		if ((*head).getPrice() > node.getPrice()) insertHead(node);
+		else insertTail(node);
+	} else { //there's at least two books in this list!	
+		current = head; 
+		
 		if ((*head).getPrice() > node.getPrice()) insertHead(node);
 		else {		
 			//search through list until you find current.price > node.price
-			for (int i = 1; i < size && (*getNodeAt(i)).getPrice() <= node.getPrice(); i++) {
+			for (int i = 0; i < size && (*getNodeAt(i)).getPrice() <= node.getPrice(); i++) {
 				current = getNodeAt(i);
 			}
 			//loop stops when current.price is the LAST ONE with price <= node.price
 			
 			//wedge node between current and current.next :3
+			cout << "Setting " << (*current).getPrice() << " > ";
+			cout << node.getPrice() << " > ";
+			cout << (*(*current).getNext()).getPrice() << endl << endl;
+			
 			node.setNext((*current).getNext());
 			(*current).setNext(&node);
+			
+			size++;
 		}
 	}
-	
-	size++;
+	cout << "added book!" << endl;
 }
 
 //other functions!

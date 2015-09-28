@@ -50,7 +50,7 @@ int main() {
 		//attach data to book, then shelve
 		BookNode currentBook(title, author, publisher, year, price);
 		bookArray[i] = currentBook;
-		cout << "address of bookArray[" << i << "]: " << &bookArray[i] << endl;
+		//cout << "address of bookArray[" << i << "]: " << &bookArray[i] << endl;
 		shelf.insertSorted(bookArray[i]);
 	}
 	cout << "done adding stuff!" << endl;
