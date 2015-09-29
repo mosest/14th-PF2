@@ -104,7 +104,7 @@ void BookList::deleteBook(string name) {
 
 void BookList::destroy() {
 	head = NULL;
-	size = 0;
+	size = 0;  
 }
 
 void BookList::print() {
