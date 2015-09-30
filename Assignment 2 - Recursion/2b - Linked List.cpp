@@ -28,7 +28,6 @@ int main() {
 	BookList shelf;
 	
 	int choice;
-	char again;
 	
 	//------------------------------
 	//Open, Read, Close File
@@ -60,19 +59,21 @@ int main() {
 	//User Interface
 	//------------------------------
 	cout << "Choose what you'd like to do with the bookshelf!" << endl;
+	
+	do {
 	cout << "(1) Destroy the list" << endl;
 	cout << "(2) Print the list" << endl;
 	cout << "(3) Add a book to the list" << endl;
 	cout << "(4) Delete a book from the list" << endl;
+	cout << "(5) Quit" << endl;
 	
-	do {
 		//ask for choice
-		cout << endl << "Input a number: ";
+		cout << endl << "Input a number 1-5: ";
 		getline(cin, intStr);
 		
 		//check if user gave useful input
 		while (!atoi(intStr.c_str()) || atoi(intStr.c_str()) > 5) { //while it's not a number OR it's the wrong number
-			cout << "Please try again. Input a number: ";
+			cout << "Input a number 1-5: ";
 			getline(cin, intStr);
 		}
 		
@@ -100,12 +101,12 @@ int main() {
 				getline(cin, intStr);
 			}
 			
-			cout << "Price: ";
+			cout << "Price: $";
 			getline(cin,floatStr); //take in price as a string
 			
 			//make sure price is actually a number ;_;
 			while (!atof(floatStr.c_str())) {
-				cout << "Price: ";
+				cout << "Price: $";
 				getline(cin, floatStr);
 			}
 			
@@ -120,12 +121,7 @@ int main() {
 			getline(cin, title);
 			shelf.deleteBook(title);
 		}
-		
-		//ask user to go again
-		cout << endl << "Do something else with the list? (y/n): ";
-		cin >> again;
-		cin.ignore();
-	} while (again == 'y' || again=='Y');
+	} while (choice != 5);
 	
 	cout << "Thank you for using the bookshelf!" << endl;
 	
