@@ -1,0 +1,78 @@
+13
+Great Expectations
+Charles Dickens
+Simon & Brown
+2011
+10.95
+
+A Tale of Two Cities
+Charles Dickens
+Simon & Brown
+2011
+11.94
+
+A Christmas Carol
+Charles Dickens
+Tribeca Books
+2010
+6.66
+
+Nicholas Nickleby
+Charles Dickens
+General Books LLC
+2010
+19.44
+
+Oliver Twist
+Charles Dickens
+Collectors Library
+2010
+9.95
+
+David Copperfield
+Charles Dickens
+Digireads.com
+2008
+14.39
+
+The Ultimate Hitchhikers Guide to the Galaxy
+Douglas Adams
+Del Rey
+2002
+11.28
+
+Dirk Gently's Holistic Detective Agency
+Douglas Adams
+Pocket Books
+1991
+7.99
+
+The Restaurant at the End of the Universe
+Douglas Adams
+Del Rey
+2005
+11.20
+
+The Hitchhiker's Guide to the Galaxy
+Douglas Adams
+Crown
+2004
+23.10
+
+The Long Dark Tea-Time of the Soul
+Douglas Adams
+Pocket Books
+1991
+7.99
+
+Life, the Universe and Everything
+Douglas Adams
+Del Rey
+2005
+11.76
+
+So Long, and Thanks for All the Fish
+Douglas Adams
+Del Rey
+2005
+11.90

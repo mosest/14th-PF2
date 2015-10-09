@@ -125,7 +125,7 @@ void StudentNode::print() const
 //----------------------------------------------
 int main()
 {
-	string name;    
+	string name; 
 	string address;    
 	float gpa;    
 	StudentNode *head = NULL;    
