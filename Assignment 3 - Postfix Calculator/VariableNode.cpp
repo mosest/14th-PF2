@@ -9,11 +9,13 @@ using namespace std;
 VariableNode::VariableNode() {
 	name = '\0';
 	value = -1;
+	next = NULL;
 }
 
 VariableNode::VariableNode(char n, int v) {
 	name = n;
 	value = v;
+	next = NULL;
 }
 
 VariableNode::VariableNode(char n, int v, VariableNode* nextone) {

@@ -7,79 +7,96 @@
 #include "VariableList.cpp"
 #include "Stack.cpp"
 #include <cmath>
+#include <cstring> //strlen i think
+#include <ctype.h> //isAlpha and isDigit
 using namespace std;
 
 //globals!
 VariableList* varList = new VariableList();
 Stack* s = new Stack();
-bool aVariableNeedsAssignment = false; //assume we're not doing anything with a var
+bool isValid = true;
 
-bool isANumber(int n) {
-	//fix this eventually
-	return true;
-}
-
-void doSomethingWith(char c) {
-	//if token is a letter (variable!)
-	if (c > 64 && c < 92) {
-		aVariableNeedsAssignment = true;
-		VariableNode* var = new VariableNode();
-		var->setName(c);
-	}
+void handleExpression(const char* exp) {
+	//exp[0] is letter, exp[2] is equal sign, exp[4] is where exp starts
+	//so do the actual stackwork, then figure out what to do with result.
+	//(either send it to an existing variable, or make a new var with it)
 	
-	//don't do anything if c is '=', it was already handled
-	//when user input a letter (variable!)
-	
-	//if c is an operator! (make this better, i hate multiple OR statements '>_>)
-	else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') {
-		//pop 2, do the operand, push regular num
-		int result;
-		if (c == '+') result = s->pop() + s->pop();
-		else if (c == '-') result = -1 * s->pop() + s->pop();
-		else if (c == '*') result = s->pop() * s->pop();
-		else if (c == '/') result = (1.0/s->pop()) * s->pop();
-		else if (c == '^') {
-			int exp = s->pop();
-			int base = s->pop();
-			result = pow(base,exp);
+	//parse the actual expression (minus the 'var = ' part!)
+	for (int i = 4; i < strlen(exp); i += 2) {
+		char c = exp[i];
+		
+		//if token is a letter (variable!)
+		if (isalpha(c)) {
+			//if we don't know what the variable in the expression is,
+			//then we're just going to QUIT EVERYTHING }:<
+			if (varList->search(c) == 0) isValid = false;
+			
+			//otherwise: look it up, and push its value on stack :D
+			else s->push(varList->search(c)->getValue());
 		}
-		s->push(result);
+		
+		//if c is a num, just push it (salt'n'peppa style)
+		else if (isdigit(c)) s->push(c - '0');
+		
+		//if c is an operator! (i hate multiple OR statements '>_>)
+		else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') {
+			//pop 2, do the operand, push result
+			int result = 0;
+			
+			if (c == '+') result = s->pop() + s->pop();
+			else if (c == '-') result = (s->pop() - s->pop());
+			else if (c == '*') result = s->pop() * s->pop();
+			else if (c == '/') result = (1.0/s->pop()) * s->pop();
+			else if (c == '^') {
+				int exp = s->pop();
+				int base = s->pop();
+				result = pow(base,exp);
+			}
+			
+			s->push(result);
+		}
 	}
 	
-	//if c is a num
-	else if (isANumber(c)) s->push(c);
+	//if the starting variable is new
+	if (varList->search(exp[0]) == 0) {
+		//create a new spot for it
+		VariableNode* var = new VariableNode();
+		var->setName(exp[0]);
+		var->setValue(s->pop());
+		
+		//add this var to the varList!
+		varList->insert(*var);
+	} 
+	
+	//otherwise, variable already exists (so just edit its value)
+	else varList->search(exp[0])->setValue(s->pop());
+	
+	//print out the result!
+	cout << exp[0] << " = " << varList->search(exp[0])->getValue() << endl;
 }
 
 int main() {
 	//variables
-	char token;
-	char another = 'y';
+	string tempStr;
+	const char* expression;
 	
 	cout << "---POSTFIX CALCULATOR---" << endl << endl;
-	cout << "Enter an expression ended with #." << endl;
+	cout << "Enter # to quit." << endl;
 	
-	while (another == 'y' || another == 'Y') { //take in all expressions the user wants
+	do {
 		cout << "> ";
+		getline(cin, tempStr);
+		expression = tempStr.c_str();
 		
-		while (cin >> token && token != '#') { //take in all chars of an expression
-			cout << "You typed '" << token << "'" << endl;
-			
-			//do something with the current token!
-			doSomethingWith(token);
-		}
-			
-		//also if a result is the only thing on the stack
-		//(at the end of the expression)
-		//then set it as the value for the variable if there is one!
-		if (aVariableNeedsAssignment) {
-			VariableNode mostRecentVariable = *(varList->getLast());
-			mostRecentVariable.setValue(s->pop());
-		}
+		cout << "You input '" << expression << "'" << endl;
 		
-		cout << "Input another expression (y/n)? ";
-		cin >> another;
-		cout << endl;
-	}
+		//handle '?'
+		if (expression[0] == '?') varList->print();
+		
+		//handle everything else
+		if (strlen(expression) < 5) isValid = false;
+		if (isValid) handleExpression(expression);
+	} while (expression[0] != '#'); //take in all expressions the user wants
 	
 	return 0;
 }

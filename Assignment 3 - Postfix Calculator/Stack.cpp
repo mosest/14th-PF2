@@ -21,11 +21,22 @@ Stack::~Stack() {
 
 //other methods! push/pop
 void Stack::push(int n) {
-	nums[top++] = n;
+	top++;
+	nums[top] = n;
 }
 
 int Stack::pop() {
-	if (top > -1) return nums[top--];
-	else cout << "nothing on the stack to pop! :(" << endl;
+	if (top > -1) {
+		top--;
+		return nums[top+1];
+	} else cout << "nothing on the stack to pop! :(" << endl;
 	return -999999;
+}
+
+void Stack::print() {
+	cout << "Top: " << top << endl;
+	for (int i = 0; i <= top; i++) {
+		cout << nums[i] << " ";
+	}
+	cout << "end print" << endl;
 }

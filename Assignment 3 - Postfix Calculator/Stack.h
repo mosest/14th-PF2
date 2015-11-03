@@ -12,6 +12,7 @@ class Stack{
 		
 		void push(int);
 		int pop();
+		void print();
 		
 	private:
 		int nums[10];
