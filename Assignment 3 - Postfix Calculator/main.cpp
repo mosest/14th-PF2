@@ -6,41 +6,54 @@
 #include <iostream>
 #include "VariableList.cpp"
 #include "Stack.cpp"
+#include <cmath>
 using namespace std;
 
-void doSomethingWith(char c, bool & aVariableNeedsAssignment, Stack s) {
-	if (token == '?') varList.print();
-	
+//globals!
+VariableList* varList = new VariableList();
+Stack* s = new Stack();
+bool aVariableNeedsAssignment = false; //assume we're not doing anything with a var
+
+bool isANumber(int n) {
+	//fix this eventually
+	return true;
+}
+
+void doSomethingWith(char c) {
 	//if token is a letter (variable!)
-	else if (token > 64 && token < 92) {
-		weAreAssigningSomethingToAVariable = true;
-		VariableNode var = new VariableNode();
-		var.setName(c);
+	if (c > 64 && c < 92) {
+		aVariableNeedsAssignment = true;
+		VariableNode* var = new VariableNode();
+		var->setName(c);
 	}
 	
-	//don't do anything if token is '=', it was already handled
+	//don't do anything if c is '=', it was already handled
 	//when user input a letter (variable!)
 	
-	//if token is an operator! (make this better, i hate multiple OR statements '>_>)
-	else if (token == '+' || token == '-' || token == '*' || token == '/' || token == '^' || token == '(' || token == ')') {
+	//if c is an operator! (make this better, i hate multiple OR statements '>_>)
+	else if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') {
 		//pop 2, do the operand, push regular num
-		int result = s.pop() + s.pop();
+		int result;
+		if (c == '+') result = s->pop() + s->pop();
+		else if (c == '-') result = -1 * s->pop() + s->pop();
+		else if (c == '*') result = s->pop() * s->pop();
+		else if (c == '/') result = (1.0/s->pop()) * s->pop();
+		else if (c == '^') {
+			int exp = s->pop();
+			int base = s->pop();
+			result = pow(base,exp);
+		}
+		s->push(result);
 	}
 	
-	//if token is a num
-	else if (/*how to check if something is a num?????*/) {
-		//push num
-	}
+	//if c is a num
+	else if (isANumber(c)) s->push(c);
 }
 
 int main() {
 	//variables
 	char token;
 	char another = 'y';
-	bool aVariableNeedsAssignment = false; //assume we're not doing anything with a var
-	VariableList varList;
-	string ops = "+-*/^()";
-	Stack stackystack = new Stack();
 	
 	cout << "---POSTFIX CALCULATOR---" << endl << endl;
 	cout << "Enter an expression ended with #." << endl;
@@ -52,15 +65,15 @@ int main() {
 			cout << "You typed '" << token << "'" << endl;
 			
 			//do something with the current token!
-			doSomethingWith(token, assign);
+			doSomethingWith(token);
 		}
 			
 		//also if a result is the only thing on the stack
 		//(at the end of the expression)
 		//then set it as the value for the variable if there is one!
 		if (aVariableNeedsAssignment) {
-			VariableNode mostRecentVariable = *(list.getLast());
-			mostRecentVariable.setValue(stackystack.pop());
+			VariableNode mostRecentVariable = *(varList->getLast());
+			mostRecentVariable.setValue(s->pop());
 		}
 		
 		cout << "Input another expression (y/n)? ";

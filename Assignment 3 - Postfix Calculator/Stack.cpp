@@ -7,7 +7,8 @@
 using namespace std;
 
 Stack::Stack() {
-	for (int i = 0; i < size; i++) {
+	//initialize everything in the array to 0
+	for (int i = 0; i < 10; i++) {
 		nums[i] = 0;
 	}
 	
@@ -24,6 +25,7 @@ void Stack::push(int n) {
 }
 
 int Stack::pop() {
-	if (top >= 0) return nums[top--];
-	else return -999999;
+	if (top > -1) return nums[top--];
+	else cout << "nothing on the stack to pop! :(" << endl;
+	return -999999;
 }

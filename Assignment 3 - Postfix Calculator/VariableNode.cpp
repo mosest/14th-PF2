@@ -6,6 +6,11 @@
 #include "VariableNode.h"
 using namespace std;
  
+VariableNode::VariableNode() {
+	name = '\0';
+	value = -1;
+}
+
 VariableNode::VariableNode(char n, int v) {
 	name = n;
 	value = v;
@@ -37,4 +42,12 @@ int VariableNode::getValue() {
 //setters
 void VariableNode::setNext(VariableNode * n) {
 	next = n;
+}
+
+void VariableNode::setName(char n) {
+	name = n;
+}
+
+void VariableNode::setValue(int v) {
+	value = v;
 }

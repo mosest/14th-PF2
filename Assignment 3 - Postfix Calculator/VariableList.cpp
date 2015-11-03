@@ -42,6 +42,18 @@ VariableNode* VariableList::search(char varName) {
 	return head;
 }
 
+VariableNode* VariableList::getLast() {
+	if (head != NULL) {
+		current = head;
+		while ((*current).getNext() != NULL) {
+			current = (*current).getNext();
+		}
+		return current;
+	}
+	
+	return 0;
+}
+
 void VariableList::print() {
 	cout << "---BEGIN PRINT---" << endl;
 	

@@ -5,8 +5,9 @@
 
 using namespace std;
 
-class VariableNode{
+class VariableNode {
 	public:
+		VariableNode();
 		VariableNode(char, int);
 		VariableNode(char, int, VariableNode *);
 		~VariableNode();
@@ -16,6 +17,8 @@ class VariableNode{
 		int getValue();
 		
 		void setNext(VariableNode *);
+		void setName(char);
+		void setValue(int);
 		
 	private:
 		int value;

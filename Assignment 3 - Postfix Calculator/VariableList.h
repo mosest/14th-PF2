@@ -13,6 +13,7 @@ class VariableList {
 		
 		void insert(VariableNode &);
 		VariableNode* search(char);
+		VariableNode* getLast();
 		
 		void print();
 		

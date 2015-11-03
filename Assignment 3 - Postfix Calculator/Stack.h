@@ -14,7 +14,6 @@ class Stack{
 		int pop();
 		
 	private:
-		const int size;
-		int nums[size];
+		int nums[10];
 		int top;
 };
