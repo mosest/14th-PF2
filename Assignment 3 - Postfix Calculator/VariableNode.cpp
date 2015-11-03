@@ -12,13 +12,13 @@ VariableNode::VariableNode() {
 	next = NULL;
 }
 
-VariableNode::VariableNode(char n, int v) {
+VariableNode::VariableNode(string n, int v) {
 	name = n;
 	value = v;
 	next = NULL;
 }
 
-VariableNode::VariableNode(char n, int v, VariableNode* nextone) {
+VariableNode::VariableNode(string n, int v, VariableNode* nextone) {
 	name = n;
 	value = v;
 	next = nextone;
@@ -33,7 +33,7 @@ VariableNode* VariableNode::getNext() {
 	return next;
 }
 
-char VariableNode::getName() {
+string VariableNode::getName() {
 	return name;
 }
 
@@ -46,8 +46,8 @@ void VariableNode::setNext(VariableNode * n) {
 	next = n;
 }
 
-void VariableNode::setName(char n) {
-	name = n;
+void VariableNode::setName(string str) {
+	name = str;
 }
 
 void VariableNode::setValue(int v) {

@@ -2,7 +2,7 @@
  * Assignment 3: Variable Linked List header
  * October 30, 2015
  */
- 
+#include <string>
 #include "VariableNode.cpp"
 
 class VariableList {
@@ -12,7 +12,7 @@ class VariableList {
 		~VariableList();
 		
 		void insert(VariableNode &);
-		VariableNode* search(char);
+		VariableNode* search(string);
 		VariableNode* getLast();
 		
 		void print();

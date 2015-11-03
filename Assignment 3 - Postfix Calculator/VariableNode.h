@@ -3,25 +3,26 @@
  * October 30, 2015
  */
 
+#include <string>
 using namespace std;
 
 class VariableNode {
 	public:
 		VariableNode();
-		VariableNode(char, int);
-		VariableNode(char, int, VariableNode *);
+		VariableNode(string, int);
+		VariableNode(string, int, VariableNode *);
 		~VariableNode();
 		
 		VariableNode* getNext();
-		char getName();
+		string getName();
 		int getValue();
 		
 		void setNext(VariableNode *);
-		void setName(char);
+		void setName(string);
 		void setValue(int);
 		
 	private:
 		int value;
-		char name;
+		string name;
 		VariableNode* next;
 };

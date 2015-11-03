@@ -29,12 +29,12 @@ void VariableList::insert(VariableNode & node) { //inserts at head b/c easiest :
 	}
 }
 
-VariableNode* VariableList::search(char varName) {
+VariableNode* VariableList::search(string varName) {
 	if (head != NULL) {
 		current = head;
 		
 		do {
-			if ((*current).getName() == varName) return current;
+			if ((*current).getName().compare(varName) == 0) return current;
 			
 			current = (*current).getNext();
 		} while ((*current).getNext() != NULL);
