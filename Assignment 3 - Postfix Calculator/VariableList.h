@@ -8,12 +8,10 @@
 class VariableList {
 	public:
 		VariableList();
-		VariableList(VariableNode *);
 		~VariableList();
 		
 		void insert(VariableNode &);
 		VariableNode* search(string);
-		VariableNode* getLast();
 		
 		void print();
 		

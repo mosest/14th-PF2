@@ -12,11 +12,6 @@ VariableList::VariableList() {
 	current = head;
 }
 
-VariableList::VariableList(VariableNode* first) {
-	head = first;
-	current = head;
-}
-
 VariableList::~VariableList() {
 	cout << "VList destructor" << endl;
 }
@@ -40,18 +35,6 @@ VariableNode* VariableList::search(string varName) {
 		} while ((*current).getNext() != NULL);
 	}
 	return head;
-}
-
-VariableNode* VariableList::getLast() {
-	if (head != NULL) {
-		current = head;
-		while ((*current).getNext() != NULL) {
-			current = (*current).getNext();
-		}
-		return current;
-	}
-	
-	return 0;
 }
 
 void VariableList::print() {
