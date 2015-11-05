@@ -32,9 +32,9 @@ VariableNode* VariableList::search(string varName) {
 			if ((*current).getName().compare(varName) == 0) return current;
 			
 			current = (*current).getNext();
-		} while ((*current).getNext() != NULL);
+		} while (current != NULL);
 	}
-	return head;
+	return NULL;
 }
 
 void VariableList::print() {

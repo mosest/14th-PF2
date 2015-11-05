@@ -12,7 +12,7 @@ Stack::Stack() {
 		nums[i] = 0;
 	}
 	
-	top = -1; //we're starting at -1 if the stack starts out empty
+	top = 0; //we're starting at 0 if there are 0 things in the stack
 }
 
 Stack::~Stack() {
@@ -22,11 +22,11 @@ Stack::~Stack() {
 //other methods! push/pop
 void Stack::push(int n) {
 	top++;
-	nums[top] = n;
+	if (top < 10) nums[top] = n;
 }
 
 int Stack::pop() {
-	if (top > -1) {
+	if (top > 0) {
 		top--;
 		return nums[top+1];
 	} else cout << "nothing on the stack to pop! :(" << endl;
