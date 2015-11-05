@@ -10,11 +10,11 @@ class Stack{
 		Stack();
 		~Stack();
 		
-		void push(int);
-		int pop();
+		bool push(int);
+		bool pop(int &);
 		void print();
 		
 	private:
 		int nums[10];
-		int top;
+		int numItems;
 };

@@ -12,7 +12,7 @@ Stack::Stack() {
 		nums[i] = 0;
 	}
 	
-	top = 0; //we're starting at 0 if there are 0 things in the stack
+	numItems = 0; //we're starting at 0 if there are 0 things in the stack
 }
 
 Stack::~Stack() {
@@ -20,23 +20,30 @@ Stack::~Stack() {
 }
 
 //other methods! push/pop
-void Stack::push(int n) {
-	top++;
-	if (top < 10) nums[top] = n;
+bool Stack::push(int n) {
+	if (numItems < 10) {
+		nums[numItems] = n;
+		numItems++;
+		return true;
+	}
+	//stack overflow D:
+	return false;
 }
 
-int Stack::pop() {
-	if (top > 0) {
-		top--;
-		return nums[top+1];
-	} else cout << "nothing on the stack to pop! :(" << endl;
-	return -999999;
+bool Stack::pop(int & n) {
+	if (numItems > 0) {
+		numItems--;
+		n = nums[numItems];
+		return true;
+	}
+	//stack underflow :(
+	return false;
 }
 
 void Stack::print() {
-	cout << "Top: " << top << endl;
-	for (int i = 0; i <= top; i++) {
+	cout << "Number of Items: " << numItems << endl;
+	for (int i = 0; i < numItems; i++) {
 		cout << nums[i] << " ";
 	}
-	cout << "end print" << endl;
+	cout << "End print" << endl;
 }

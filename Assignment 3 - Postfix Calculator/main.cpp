@@ -67,6 +67,7 @@ bool handleShit(string expression) {
 	string varName;
 	string equalSign;
 	string tempToken;
+	int newValue;
 	if (!getTokens(expression, varName)) return false;
 	
 	//expression is now shorter, varName has a variable name in it. 
@@ -74,13 +75,12 @@ bool handleShit(string expression) {
 	if (!getTokens(expression, equalSign)) return false;
 	
 	//now let's loop through to do actual calculations with the num/op tokens
-	while (getTokens(expression, tempToken)) {
+	while (getTokens(expression, tempToken)) {		
 		//if tempToken is a word (variable): look up / create
 		if (isAWord(tempToken)) {
-			cout << tempToken << " is a word!" << endl;
 			//if variable is unknown, then expression is invalid
 			if (varList->search(tempToken) == 0) {
-				cout << "I don't know what " << tempToken << " means. Invalid expression" << endl;
+				cout << "Invalid expression. Value of " << tempToken << " is unknown" << endl;
 				return false;
 			}
 			
@@ -88,8 +88,9 @@ bool handleShit(string expression) {
 			else s->push(varList->search(tempToken)->getValue());
 		}
 		
-		//if tempToken is a number: push it
-		else if (atoi(tempToken.c_str())) {
+		//if tempToken is a number: push it.
+		//note: atoi("0") returns false ('>_>), so i needed a special case for pushing 0 :3
+		else if (atoi(tempToken.c_str()) || tempToken.compare("0") == 0) {
 			int intToken = atoi(tempToken.c_str());
 			s->push(intToken);
 		}
@@ -98,18 +99,27 @@ bool handleShit(string expression) {
 		else if (tempToken.compare("+") == 0 || tempToken.compare("-") == 0 || tempToken.compare("*") == 0 || tempToken.compare("/") == 0 || tempToken.compare("^") == 0) {
 			//pop 2, do the operand, push result
 			int result = 0;
+			int a;
+			int b;
 			
-			if (tempToken.compare("+") == 0) result = s->pop() + s->pop();
-			else if (tempToken.compare("-") == 0) result = -1.0 * (s->pop() - s->pop());
-			else if (tempToken.compare("*") == 0) result = s->pop() * s->pop();
-			else if (tempToken.compare("/") == 0) result = (1.0/s->pop()) * s->pop();
-			else if (tempToken.compare("^") == 0) {
-				int exp = s->pop();
-				int base = s->pop();
-				result = pow(base,exp);
-			}
+			//pop 2. if either of those give stack underflow, then
+			//expression is invalid
+			if (!(s->pop(a)) || !(s->pop(b))) return false;
 			
-			s->push(result);
+			if (tempToken.compare("+") == 0) result = a + b;
+			else if (tempToken.compare("-") == 0) result = b - a;
+			else if (tempToken.compare("*") == 0) result = a * b;
+			else if (tempToken.compare("/") == 0) {
+				//check if we're dividing by zero
+				if (a != 0) result = b/a;
+				else {
+					cout << "Division by zero is prohibited" << endl;
+					return false;
+				}
+			} else if (tempToken.compare("^") == 0) result = pow(b,a);
+			
+			//if stack overflow, then expression is invalid
+			if (!(s->push(result))) return false;
 		}
 	}
 	
@@ -118,14 +128,19 @@ bool handleShit(string expression) {
 		//create a new spot for it
 		VariableNode* var = new VariableNode();
 		var->setName(varName);
-		var->setValue(s->pop());
+		
+		s->pop(newValue);
+		var->setValue(newValue);
 		
 		//add this var to the varList!
 		varList->insert(*var);
 	} 
 	
 	//otherwise, variable already exists (so just edit its value)
-	else varList->search(varName)->setValue(s->pop());
+	else {
+		s->pop(newValue);
+		varList->search(varName)->setValue(newValue);
+	}
 	
 	//print result of expression!
 	cout << varName << " = " << varList->search(varName)->getValue() << endl;
@@ -141,8 +156,8 @@ int main() {
 	string tempStr;
 	const char* expression;
 	
-	cout << "---POSTFIX CALCULATOR---" << endl << endl;
-	cout << "Enter # to quit." << endl;
+	cout << "---POSTFIX CALCULATOR---" << endl;
+	cout << "Enter # to quit; enter ? to see list of variables." << endl << endl;
 	
 	//take in input
 	cout << "> ";
