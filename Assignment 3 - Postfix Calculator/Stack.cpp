@@ -3,6 +3,7 @@
  * October 30, 2015
  */
 
+#include <iostream>
 #include "Stack.h"
 using namespace std;
 
@@ -26,7 +27,7 @@ bool Stack::push(int n) {
 		numItems++;
 		return true;
 	}
-	//stack overflow D:
+	cout << "Stack overflow. Invalid expression" << endl;
 	return false;
 }
 
@@ -36,7 +37,7 @@ bool Stack::pop(int & n) {
 		n = nums[numItems];
 		return true;
 	}
-	//stack underflow :(
+	cout << "Stack underflow. Invalid expression" << endl;
 	return false;
 }
 

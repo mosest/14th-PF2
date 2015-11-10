@@ -3,7 +3,8 @@
  * October 30, 2015
  */
 #include <string>
-#include "VariableNode.cpp"
+#include "VariableNode.h"
+using namespace std;
 
 class VariableList {
 	public:

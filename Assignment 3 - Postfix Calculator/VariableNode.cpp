@@ -4,6 +4,7 @@
  */
 
 #include "VariableNode.h"
+#include <iostream>
 using namespace std;
  
 VariableNode::VariableNode() {
@@ -24,9 +25,7 @@ VariableNode::VariableNode(string n, int v, VariableNode* nextone) {
 	next = nextone;
 }
 
-VariableNode::~VariableNode() {
-	cout << "VNode destructor" << endl;
-}
+VariableNode::~VariableNode() {}
 
 //getters
 VariableNode* VariableNode::getNext() {

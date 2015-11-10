@@ -4,8 +4,8 @@
  */
 
 #include <iostream>
-#include "VariableList.cpp"
-#include "Stack.cpp"
+#include "VariableList.h"
+#include "Stack.h"
 #include <cmath>
 #include <cstdlib>		//atoi
 #include <cstring> 		//used in helper functions
@@ -18,7 +18,6 @@ using namespace std;
 //------------------------------------
 VariableList* varList = new VariableList();
 Stack* s = new Stack();
-bool isValid = true;
 
 //------------------------------------
 // Helper Functions
@@ -59,7 +58,7 @@ bool getTokens(string & input, string & token) {
 //------------------------------------
 // Function that Computes Expression
 //------------------------------------
-bool handleShit(string expression) {
+bool handleExpression(string expression) {
 	//get tokens one at a time, but do the first two without a loop
 	//because you know what those are going to be: a variable name 
 	//and '='. 
@@ -161,34 +160,19 @@ int main() {
 	
 	//take in input
 	cout << "> ";
-	getline(cin, tempStr);
-	
+	getline(cin, tempStr);	
 	expression = tempStr.c_str();
-	
-	//turn input into array of string tokens!
-	/*const int lengthOfExpression = tempStr.size();
-	string expression[lengthOfExpression];
-	putStrIntoStrArray(tempStr, expression, numTokens);
-		
-	printArray(expression);*/
 	
 	while (expression[0] != '#') { //take in all expressions the user wants
 		//handle the expression
 		if (expression[0] == '?') varList->print();
-		else handleShit(tempStr);
+		else handleExpression(tempStr);
 		
 		//ask for another
 		cout << endl << "> ";
 		getline(cin, tempStr);
 		
 		expression = tempStr.c_str();
-		
-		//turn input into array of string tokens!
-		/*const int lengthOfExpression = tempStr.size();
-		string expression[lengthOfExpression];
-		putStrIntoStrArray(tempStr, expression, numTokens);
-		
-		printArray(expression);*/
 	}
 	
 	return 0;

@@ -12,9 +12,7 @@ VariableList::VariableList() {
 	current = head;
 }
 
-VariableList::~VariableList() {
-	cout << "VList destructor" << endl;
-}
+VariableList::~VariableList() {}
 
 void VariableList::insert(VariableNode & node) { //inserts at head b/c easiest :^)
 	if (head == NULL) head = &node;
