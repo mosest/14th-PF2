@@ -7,26 +7,35 @@
 #include <stdlib.h> 	//rand
 #include <fstream> 		//file i/o
 #include <string>
+#include <time.h>		//time (for srand)
 using namespace std;
 
 //-------------------------------------------------------
 // Global Variables
 //-------------------------------------------------------
-const int SIZE 		= 10;
-const int MAX_VALUE	= 20;
+const int SIZE 		= 100;
+const int MAX_VALUE	= 10000;
 
 //-------------------------------------------------------
 // Helper Functions
 //-------------------------------------------------------
 void print(int array[]) {
 	for (int i = 0; i < SIZE; i++) {
-		cout << i << ": " << array[i] << endl;
+		cout << array[i] << " ";
 	}
 }
  
 void randomize(int array[]) {
+	srand(time(NULL));
+	
 	for (int i = 0; i < SIZE; i++) {
 		array[i] = rand() % MAX_VALUE + 1;
+	}
+}
+
+void copyArray(int from[], int to[]) {
+	for (int i = 0; i < SIZE; i++) {
+		to[i] = from[i];
 	}
 }
 
@@ -58,23 +67,17 @@ void writeToFile(int array[], string filename) {
 void cornSort(int array[], int low, int high) {
 	//variables!
 	int moveCount	= 0;
-	int left 		= low;
-	int right 		= high;
-	int leftItem;
-	int rightItem;
 	int tempItem;
 	
 	do {
 		//let's go left-to-right
-		for (int i = left; i < right - 1; i++) { //SIZE - 1 corrects for us looking one ahead (rightItem)
-			leftItem = array[i];
-			rightItem = array[i+1];
+		for (int i = low; i < high; i++) { //0 to high-1 corrects for us looking one to the right
 			
-			if (leftItem > rightItem) {
+			if (array[i] > array[i + 1]) {
 				//we need to swap
-				tempItem = leftItem;
-				leftItem = rightItem;
-				rightItem = tempItem;
+				tempItem = array[i];
+				array[i] = array[i + 1];
+				array[i + 1] = tempItem;
 				
 				//increment moveCounter!
 				moveCount++;
@@ -83,18 +86,16 @@ void cornSort(int array[], int low, int high) {
 		
 		//we have to test if moveCount==0 after the LR pass. if it is, break
 		if (moveCount == 0) break; //UGH I HATE BREAK STATEMENTS BUT I GUESS ITS NECESSARY IN THIS CONTEXT??
-	
+		
 		//now let's go right-to-left
 		moveCount = 0;
-		for (int i = right; i > left; i--) { //going from SIZE to 1 corrects for us looking one ahead (leftItem)
-			leftItem = array[i - 1];
-			rightItem = array[i];
+		for (int i = high; i > low; i--) { //going from high to 1 corrects for us looking one to the left
 			
-			if (leftItem > rightItem) {
+			if (array[i - 1] > array[i]) {
 				//we need to swap
-				tempItem = leftItem;
-				leftItem = rightItem;
-				rightItem = tempItem;
+				tempItem = array[i - 1];
+				array[i - 1] = array[i];
+				array[i] = tempItem;
 				
 				//increment moveCounter!
 				moveCount++;
@@ -104,10 +105,42 @@ void cornSort(int array[], int low, int high) {
 } 
 
 //-------------------------------------------------------
-// Hi-Low Sort
+// Hi-Low Sort (let's make this recursive!!)
 //-------------------------------------------------------
 void hilowSort(int array[], int low, int high) {
-	cout << "starting hilowSort" << endl;
+	//variables
+	int *smallest	= &array[low];
+	int *biggest 	= &array[low];
+	int tempItem;
+	
+	if (high - low > 0) {
+		//find smallest num
+		for (int i = low; i <= high; i++) {
+			if (array[i] < *smallest) smallest = &array[i];
+		}
+		
+		//swap smallest num with array[low]
+		tempItem = *smallest;
+		*smallest = array[low];
+		array[low] = tempItem;
+		
+		//find biggest num
+		for (int i = low; i <= high; i++) {
+			if (array[i] > *biggest) biggest = &array[i];
+		}
+		
+		//swap biggest num with array[high]
+		tempItem = *biggest;
+		*biggest = array[high];
+		array[high] = tempItem;
+		
+		//change low and high
+		high--;
+		low++;
+		
+		//let's do it again
+		hilowSort(array, low, high);
+	}
 }
 
 //-------------------------------------------------------
@@ -115,17 +148,21 @@ void hilowSort(int array[], int low, int high) {
 //-------------------------------------------------------
 int main() {
 	//variables
-	int nums[SIZE]; //100 ints between 1 and 10,000
+	int cornNums[SIZE]; 	//100 ints between 1 and 10,000
+	int hilowNums[SIZE];	//100 ints between 1 and 10,000
 	
-	//initialize nums!
-	randomize(nums);
-	writeToFile(nums, "unsorted.txt");
+	//initialize nums! both arrays will have the same random nums
+	randomize(cornNums);
+	copyArray(cornNums, hilowNums);
+	writeToFile(cornNums, "unsorted.txt");
 	
 	//let's test corn-sort!
-	cornSort(nums, 0, SIZE);
-	//writeToFile(nums, SIZE, "cornSorted.txt");
-	//i'll make a file for it later, right now i want it on the screen
-	print(nums);
-
+	cornSort(cornNums, 0, SIZE - 1);
+	writeToFile(cornNums, "cornSorted.txt");
+	
+	//let's test hilow-sort!
+	hilowSort(hilowNums, 0, SIZE - 1);
+	writeToFile(hilowNums, "hilowSorted.txt");
+	
 	return 0;
 }
