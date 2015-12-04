@@ -41,7 +41,7 @@ class BinaryTree
    bool deleteHelper(int value, Node * tree);
    void printHelper(Node * tree);
    void countHelper(int &, Node * tree);
-   void heightHelper(int &, Node * tree);
+   int heightHelper(Node * tree);
 
    // Tree pointer
    Node *root;

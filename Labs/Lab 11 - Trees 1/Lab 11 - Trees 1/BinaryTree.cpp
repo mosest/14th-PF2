@@ -147,17 +147,20 @@ int BinaryTree::count()
 //-----------------------------------------------------------
 // Height helper function.
 //-----------------------------------------------------------
-void BinaryTree::heightHelper(int & num, Node * tree)
+int BinaryTree::heightHelper(Node * tree)
 {
    // Check terminating condition
-   if (tree != NULL)
+   if (tree == NULL) return 0;
+   else
    {
-       num++;
-      //left subtree
-      heightHelper(num, tree->left);
+      int leftSide = heightHelper(tree->left);
 
       //right subtree
-      heightHelper(num, tree->right);
+      int rightSide = heightHelper(tree->right);
+      
+      //if there's more on the leftSide than on the rightSide
+      if (leftSide > rightSide) return leftSide + 1;
+      else return rightSide + 1;
    }
 }
 
@@ -169,7 +172,7 @@ int BinaryTree::height()
     int num = 0;
     
    // Call tree printing function
-   heightHelper(num, root);
+   num = heightHelper(root);
    
    return num;
 }
